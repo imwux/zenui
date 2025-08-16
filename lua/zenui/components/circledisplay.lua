@@ -23,7 +23,7 @@ function CIRCLEDISPLAY:Paint(w, h)
     ZenUI.Utils.DrawCircle(w/2, h/2, w/2, ZenUI.Colors.Secondary)
     ZenUI.Utils.DrawArc(w/2, h/2, 0, progress / maxProgress * 360, w/2, self.Color)
     ZenUI.Utils.DrawCircle(w/2, h/2, w/3, ZenUI.Colors.Primary)
-    
+
     local progressText = string.format("%s / %s", progress, maxProgress)
     surface.SetTextColor(ZenUI.Colors.Text)
     surface.SetFont("ZenUI.Label.Text")
