@@ -25,16 +25,22 @@ end
 
 function LABEL:PerformLayout(w, h)
     surface.SetFont(self.Font)
-    self.Text = ZenUI.Utils.ShortenText(self.Text, w)
+    self.Text = ZenUI.Utils.ShortenText(self.FullText, w)
+end
+
+function LABEL:GetContentSize()
+    surface.SetFont(self.Font)
+    return surface.GetTextSize(self.Text)
 end
 
 function LABEL:SetText(text)
-    self.Text = text
+    self.FullText = text
+    self.Text = self.FullText
     self:InvalidateLayout()
 end
 
 function LABEL:GetText()
-    return self.Text
+    return self.FullText
 end
 
 function LABEL:SetTextColor(color)
