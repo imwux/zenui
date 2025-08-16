@@ -29,7 +29,7 @@ function DROPDOWN:Init()
 
     hook.Add("VGUIMousePressed", self, function(self, panel, mouseCode)
         if !self.Open or panel == self or !self.Dropdown then return end
-        for _, v in pairs(self.Dropdown:GetChildren()) do
+        for _, v in pairs(self.Dropdown:GetCanvas():GetChildren()) do
             if v == panel then
                 return
             end
@@ -67,11 +67,12 @@ function DROPDOWN:SetOpen(value)
     end
 
     if self.Open then
-        self.Dropdown = self:Add("Panel")
+        self.Dropdown = self:Add("ZenUI.Scroll")
         self.Dropdown:SetPos(self:LocalToScreen(0, 30))
         self.Dropdown:SetSize(self:GetWide(), 30 * #self.Values)
         self.Dropdown:SetDrawOnTop(true)
         self.Dropdown:MakePopup()
+        self.Dropdown:SetColor(ZenUI.Colors.Tertiary)
 
         self.Dropdown.Paint = function(_, w, h)
             if self.Open then
@@ -109,6 +110,9 @@ function DROPDOWN:SetOpen(value)
             end
         end
 
+        if self.Dropdown:GetTall() > 500 then
+            self.Dropdown:SetTall(500)
+        end
     end
 end
 
