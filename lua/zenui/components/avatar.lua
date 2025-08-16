@@ -11,6 +11,9 @@ local AVATAR = {}
 function AVATAR:Init()
     self.Rotation = 0
     self.Vertices = 50
+    self.Radius = 2
+    self.RadiusRight = true
+    self.RadiusLeft = true
     self.Avatar = vgui.Create("AvatarImage", self)
     self.Avatar:SetPaintedManually(true)
 end
@@ -39,6 +42,15 @@ function AVATAR:SetPlayer(ply, size)
     self.Avatar:SetPlayer(ply, size)
 end
 
+function AVATAR:SetRadius(radius, left, right)
+    if left == nil then left = true end
+    if right == nil then right = true end
+
+    self.Radius = radius
+    self.RadiusLeft = left
+    self.RadiusRight = right
+end
+
 function AVATAR:PerformLayout(w, h)
     local sz = w
     if w > h then sz = h end
@@ -51,13 +63,16 @@ function AVATAR:CalculatePoly(w, h)
 
     local x = w/2
     local y = h/2
-    local radius = h/2
+    local radius = h/self.Radius
 
     table.insert(poly, { x = x, y = y })
 
     for i = 0, self.Vertices do
         local a = math.rad((i / self.Vertices) * -360) + self.Rotation
-        table.insert(poly, { x = x + math.sin(a) * radius, y = y + math.cos(a) * radius })
+        local rad = radius
+        if !self.RadiusRight and i > self.Vertices / 2 then rad = h end
+        if !self.RadiusLeft and i < self.Vertices / 2 then rad = h end
+        table.insert(poly, { x = x + math.sin(a) * rad, y = y + math.cos(a) * rad })
     end
 
     local a = math.rad(0)
