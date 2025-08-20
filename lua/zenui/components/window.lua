@@ -65,14 +65,12 @@ function WINDOW:OnMouseReleased(mcode)
     self.Dragging = false
 end
 
-function WINDOW:OnCursorExited()
-    self.Dragging = false
-end
+function WINDOW:Think()
+    if !self.Dragging then return end
 
-function WINDOW:OnCursorMoved(x, y)
-    if self.Dragging then
-        self:SetPos(self:LocalToScreen(x - self.DraggingFrom.x, y - self.DraggingFrom.y))
-    end
+    local x = math.Clamp(gui.MouseX(), 1, ScrW() - 1)
+    local y = math.Clamp(gui.MouseY(), 1, ScrH() - 1)
+    self:SetPos(x - self.DraggingFrom.x, y - self.DraggingFrom.y)
 end
 
 function WINDOW:SetTitle(title)
